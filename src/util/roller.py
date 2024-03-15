@@ -1,8 +1,15 @@
 
 import random
+from typing import List, Optional
+from pydantic import BaseModel
+
+class RollResult(BaseModel):
+    result: int
+    dice: List[int]
+    error: Optional[str] = ""
 
 
-def roll(roll: str) -> dict:
+def Roll(roll: str) -> RollResult:
 
     dice = []
     total = 0
@@ -45,6 +52,8 @@ def roll(roll: str) -> dict:
 
     total += addition_mod
     total -= subtraction_mod
+
+    result = RollResult(result=total,dice=dice)
 
     return {
         "dice": dice,
