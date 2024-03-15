@@ -10,9 +10,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-    volumes:
-      - ./data/mongo:/data/db
-  
+      MONGO_INITDB_DATABASE: db  
+
   mongo_db_gui:
     image: mongo-express
     depends_on:
@@ -21,10 +20,9 @@ services:
     ports:
       - "8081:8081"
     environment:
-      ME_CONFIG_MONGODB_AUTH_DATABASE: db
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_SERVER: document_db
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@document_db:27017/
 
 
   relational_db:
@@ -36,8 +34,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
       POSTGRES_DB: postgres
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
 
   postgres_db_gui:
     image: adminer
@@ -54,8 +50,6 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: rabbitmq
       RABBITMQ_DEFAULT_PASS: example
-    volumes:
-      - ./data/rabbitmq:/var/lib/rabbitmq
     
   
   rabbitmq_gui:
@@ -68,3 +62,9 @@ services:
       RABBITMQ_DEFAULT_PASS: example
     volumes:
       - ./data/rabbitmq:/var/lib/rabbitmq
+
+  api:
+    build: src/
+    container_name: api
+    ports:
+      - "8003:8000"

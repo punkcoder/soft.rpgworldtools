@@ -13,6 +13,11 @@ app = FastAPI()
 def get_root():
     return { "status": "alive"}
 
+@app.get("/favicon.ico")
+def get_favicon():
+    return { "status": "alive"}
+
 @app.get("/dice/{roll}")
 def get_dice_roll(roll: str) -> RollResult:
     return Roll(roll)
+
