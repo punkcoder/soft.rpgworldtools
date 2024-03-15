@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 from util.roller import Roll, RollResult
+from util.container import Container
 
 app = FastAPI()
 
@@ -14,5 +15,4 @@ def get_root():
 
 @app.get("/dice/{roll}")
 def get_dice_roll(roll: str) -> RollResult:
-    
     return Roll(roll)
